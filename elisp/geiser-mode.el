@@ -155,10 +155,10 @@ With a prefix, revert the effect of `geiser-mode-eval-last-sexp-to-buffer' "
 				geiser-mode-eval-last-sexp-to-buffer))
 	 (str (geiser-eval--retort-result-str ret (when will-eval-to-buffer ""))))
     (cond  ((not will-eval-to-buffer) str)
-	   ((string= "" str))
 	   (err (insert
 		 (format "\n%sERROR:%s\n" geiser-mode-eval-to-buffer-prefix
 			 (geiser-eval--error-str err))))
+	   ((string= "" str))
 	   (t (progn
 		(push-mark)
 		(insert
