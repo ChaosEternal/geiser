@@ -72,6 +72,17 @@ active when `geiser-mode' is activated in a buffer."
   :group 'geiser-mode
   :type 'string)
 
+(geiser-custom--defcustom geiser-mode-eval-to-buffer-error-prefix " "
+  "When `geiser-mode-eval-last-sexp-to-buffer', the prefix string which will prepend to errors"
+  :group 'geiser-mode
+  :type 'string)
+
+(geiser-custom--defcustom geiser-mode-eval-to-buffer-surfix ""
+  "When `geiser-mode-eval-last-sexp-to-buffer', the surfix string which will append to results"
+  :group 'geiser-mode
+  :type 'string)
+
+
 
 
 ;;; Evaluation commands:
@@ -162,11 +173,13 @@ With a prefix, revert the effect of `geiser-mode-eval-last-sexp-to-buffer' "
 	 (str (geiser-eval--retort-result-str ret (when will-eval-to-buffer ""))))
     (cond  ((not will-eval-to-buffer) str)
 	   (err (insert (format "%sERROR:%s"
-                                geiser-mode-eval-to-buffer-prefix
+                                geiser-mode-eval-to-buffer-error-prefix
                                 (geiser-eval--error-str err))))
 	   ((string= "" str))
 	   (t (push-mark)
-              (insert (format "%s%s" geiser-mode-eval-to-buffer-prefix str))))))
+              (insert (format "%s%s%s" geiser-mode-eval-to-buffer-prefix str
+			      geiser-mode-eval-to-buffer-surfix
+			      ))))))
 
 (defun geiser-compile-definition (&optional and-go)
   "Compile the current definition in the Geiser REPL.
